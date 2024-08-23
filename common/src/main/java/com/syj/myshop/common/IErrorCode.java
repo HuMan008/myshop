@@ -1,4 +1,4 @@
-package com.syj.myshop.exception;
+package com.syj.myshop.common;
 
 public interface IErrorCode {
 

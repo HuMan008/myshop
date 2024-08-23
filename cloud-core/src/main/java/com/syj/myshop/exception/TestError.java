@@ -1,11 +1,12 @@
 package com.syj.myshop.exception;
 
+import com.syj.myshop.common.IErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum TestError implements IErrorCode{
+public enum TestError implements IErrorCode {
     TEST_ERROR(1000,"测试异常"),
     ;
 
