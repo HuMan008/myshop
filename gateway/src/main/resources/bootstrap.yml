@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: http://121.41.178.85:28848
+      discovery:
+        enabled: true
+      config:
+        enabled: true
+        file-extension: yaml
+        extension-configs: myshop.yml
+        shared-configs: myshop.yml
+      username: nacos_01
+      password: .nacos.
+  config:
+    import: nacos:gateway.yml
+  application:
+    name: gateway
+
+server:
+  port: 9110
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG
+
+
+

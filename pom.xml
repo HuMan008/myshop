@@ -14,6 +14,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.3.0</spring-boot.version>
+        <spring-cloud-gatewat.version>4.1.4</spring-cloud-gatewat.version>
         <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
         <mysql-connector.version>8.0.33</mysql-connector.version>
         <authorization-server.version>1.3.0</authorization-server.version>
@@ -29,6 +30,7 @@
         <module>cloud-core</module>
         <module>auth</module>
         <module>oauth2</module>
+        <module>gateway</module>
     </modules>
 
 
@@ -89,6 +91,11 @@
                 <version>${authorization-server.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${spring-cloud-gatewat.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
