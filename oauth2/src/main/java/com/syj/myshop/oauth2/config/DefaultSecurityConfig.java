@@ -18,6 +18,7 @@ package com.syj.myshop.oauth2.config;
 import com.syj.myshop.oauth2.federation.FederatedIdentityAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.session.SessionRegistry;
@@ -48,18 +49,20 @@ public class DefaultSecurityConfig {
 		http
 			.authorizeHttpRequests(authorize ->
 				authorize
-					.requestMatchers("/assets/**", "/login","/oauth2/**").permitAll()
+					.requestMatchers("/assets/**", "/login","/oauth2/**","/actuator/**").permitAll()
 					.anyRequest().authenticated()
 			)
 			.formLogin(formLogin ->
 				formLogin
 					.loginPage("/login")
 			)
+				.oauth2Client(Customizer.withDefaults())
 			.oauth2Login(oauth2Login ->
 				oauth2Login
 					.loginPage("/login")
 					.successHandler(authenticationSuccessHandler())
 			)
+
 				//.oauth2Client(oauth2Client->
 				//		oauth2Client.configure())
 		;

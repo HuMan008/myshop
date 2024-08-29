@@ -19,6 +19,8 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.syj.myshop.oauth2.handler.MyAuthenticationFailureHandler;
+import com.syj.myshop.oauth2.handler.MyAuthenticationSuccessHandler;
 import com.syj.myshop.oauth2.jose.Jwks;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,12 +33,14 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationContext;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -85,7 +89,17 @@ public class AuthorizationServerConfig {
 			.deviceVerificationEndpoint(deviceVerificationEndpoint ->
 				deviceVerificationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)
 			)
+			.clientAuthentication(clientAuthentication ->
+				clientAuthentication
+						.errorResponseHandler( new MyAuthenticationFailureHandler())
 
+						//.authenticationSuccessHandler(new MyAuthenticationSuccessHandler())
+
+			)
+			.tokenEndpoint((token) ->
+					token.accessTokenResponseHandler(new MyAuthenticationSuccessHandler())
+					.errorResponseHandler(new MyAuthenticationFailureHandler())
+			)
 			.authorizationEndpoint(authorizationEndpoint ->
 				authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
 			.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
@@ -114,6 +128,7 @@ public class AuthorizationServerConfig {
 				.clientId("pay")
 				.clientSecret("{noop}pay")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
@@ -122,7 +137,7 @@ public class AuthorizationServerConfig {
 				.postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
 				.scope("pay-all")
 				.clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-				.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofDays(3)).build())
+				.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofDays(365*3)).build())
 				.build();
 
 		JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);

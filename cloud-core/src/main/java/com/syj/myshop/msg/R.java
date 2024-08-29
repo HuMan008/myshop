@@ -30,4 +30,17 @@ public class R <T>{
         return new R<T>(HttpServletResponse.SC_OK,"操作成功",data);
     }
 
+    public static <T> R<T> fail(IErrorCode errorCode,T data) {
+        return new R<T>(errorCode.getCode(), errorCode.getMsg(),data);
+    }
+
+    public static <T> R<T> fail(IErrorCode errorCode ) {
+        return new R<T>(errorCode.getCode(), errorCode.getMsg() ,null);
+    }
+
+    public static <T> R<T> fail(IErrorCode errorCode,String msg ) {
+        return new R<T>(errorCode.getCode(), errorCode.getMsg() +"【" +  msg+"】",null);
+    }
+
+
 }

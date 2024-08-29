@@ -1,9 +1,9 @@
 server:
-  port: 9001
+  port: 9119
 
 spring:
   application:
-    name: pay
+    name: sba
   cloud:
     nacos:
       server-addr: http://121.41.178.85:28848
@@ -19,12 +19,8 @@ spring:
   config:
     import: nacos:${spring.application.name}.yml
 
-  security:
-    oauth2:
-      client:
-        provider:
-          my-oauth2:
-            issuer-uri: http://127.0.0.1:9000
+
+
 
 
 

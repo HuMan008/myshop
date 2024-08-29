@@ -1,4 +1,7 @@
+
 spring:
+  application:
+    name: oauth2
   cloud:
     nacos:
       server-addr: http://121.41.178.85:28848
@@ -12,12 +15,8 @@ spring:
       username: nacos_01
       password: .nacos.
   config:
-    import: nacos:auth.yml
-  application:
-    name: oauth
-  data:
-    redis:
-      url: redis://121.41.178.85:26379
-      password: afoobaredb
+    import: nacos:${spring.application.name}.yml
+
+
 
 

@@ -22,26 +22,10 @@ public class ResourceServerConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        //http
-        //        .authorizeHttpRequests((requests) -> requests
-        //                .requestMatchers("/api/public").permitAll()
-        //                .requestMatchers("/api/private").authenticated()
-        //        )
-        //        .oauth2ResourceServer((oauth2) -> oauth2
-        //                .jwt((jwt) -> Customizer.withDefaults())
-        //        )
-        //
-        //        .oauth2Client(Customizer.withDefaults())
-        //        .oauth2Login(Customizer.withDefaults())
-        //        .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        //        .csrf((csrf) -> csrf.disable());
-        //
-        //return http.build();
-
-
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/public").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/private").authenticated()
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2
@@ -58,11 +42,4 @@ public class ResourceServerConfig {
         // Ensure this URI matches the issuer in your authorization server's configuration
         return JwtDecoders.fromIssuerLocation("http://127.0.0.1:9000");
     }
-
-    //@Bean
-    //public JwtAuthenticationConverter jwtAuthenticationConverter() {
-    //    JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-    //    converter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter());
-    //    return converter;
-    //}
 }
