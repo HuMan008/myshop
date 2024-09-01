@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.syj247</groupId>
             <artifactId>cloud-core</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <!-- Spring Boot Starter Web -->
