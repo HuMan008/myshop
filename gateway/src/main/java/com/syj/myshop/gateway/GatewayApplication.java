@@ -18,6 +18,6 @@ public class GatewayApplication {
 
     @Bean
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) throws Exception {
-        return http.csrf().disable().build();
+        return http.csrf(ServerHttpSecurity.CsrfSpec::disable).build();
     }
 }
